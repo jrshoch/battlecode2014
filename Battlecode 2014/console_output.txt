@@ -1,0 +1,183 @@
+Buildfile: /home/jhoch/code/battlecode2014/Battlecode 2014/build.xml
+
+-init:
+
+build-scala:
+
+build:
+    [javac] /home/jhoch/code/battlecode2014/Battlecode 2014/build.xml:64: warning: 'includeantruntime' was not set, defaulting to build.sysclasspath=last; set to false for repeatable builds
+    [javac] Compiling 1 source file to /home/jhoch/code/battlecode2014/Battlecode 2014/bin
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.6
+    [javac] 1 warning
+
+run:
+     [java] amd64
+     [java] opengl = false
+     [java] minimap = false
+     [java] Matchviewer 2
+     [java] null null A B null
+     [java] Creating a game%%%%%%%%%
+     [java] [server] -------------------- Match Starting --------------------
+     [java] [server]         team000 vs. blindrush on rushlane
+     [java] Round: 0
+     [java] [A:SOLDIER#105@0] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@1] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@2] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@4] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@5] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@6] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@8] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@9] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@11] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@12] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@13] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@15] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@16] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@18] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@19] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@20] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@22] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@23] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@25] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@26] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@27] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@29] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@30] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#209@30] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#209@31] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@32] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#209@32] No enemy robots nearby; not attacking.
+     [java] [A:SOLDIER#105@33] java.lang.ArrayIndexOutOfBoundsException: 0
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getSoldiersWithinAttackRange(RobotPlayer.java:175)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getAttackingAlliedRobotInfos(RobotPlayer.java:152)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.micro(RobotPlayer.java:108)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.runAsSoldier(RobotPlayer.java:66)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.run(RobotPlayer.java:46)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+     [java] [A:SOLDIER#105@33] 	at java.lang.reflect.Method.invoke(Method.java:606)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.RobotRunnable.run(RobotRunnable.java:65)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.scheduler.ScheduledRunnable.run(ScheduledRunnable.java:37)
+     [java] [A:SOLDIER#105@33] 	at java.lang.Thread.run(Thread.java:724)
+     [java] [A:SOLDIER#105@33] java.lang.ArrayIndexOutOfBoundsException: 0
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getSoldiersWithinAttackRange(RobotPlayer.java:175)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getAttackingAlliedRobotInfos(RobotPlayer.java:152)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.micro(RobotPlayer.java:108)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.runAsSoldier(RobotPlayer.java:66)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.run(RobotPlayer.java:46)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+     [java] [A:SOLDIER#105@33] 	at java.lang.reflect.Method.invoke(Method.java:606)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.RobotRunnable.run(RobotRunnable.java:65)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.scheduler.ScheduledRunnable.run(ScheduledRunnable.java:37)
+     [java] [A:SOLDIER#105@33] 	at java.lang.Thread.run(Thread.java:724)
+     [java] [A:SOLDIER#105@33] java.lang.ArrayIndexOutOfBoundsException: 0
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getSoldiersWithinAttackRange(RobotPlayer.java:175)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getAttackingAlliedRobotInfos(RobotPlayer.java:152)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.micro(RobotPlayer.java:108)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.runAsSoldier(RobotPlayer.java:66)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.run(RobotPlayer.java:46)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+     [java] [A:SOLDIER#105@33] 	at java.lang.reflect.Method.invoke(Method.java:606)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.RobotRunnable.run(RobotRunnable.java:65)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.scheduler.ScheduledRunnable.run(ScheduledRunnable.java:37)
+     [java] [A:SOLDIER#105@33] 	at java.lang.Thread.run(Thread.java:724)
+     [java] [A:SOLDIER#105@33] java.lang.ArrayIndexOutOfBoundsException: 0
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getSoldiersWithinAttackRange(RobotPlayer.java:175)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getAttackingAlliedRobotInfos(RobotPlayer.java:152)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.micro(RobotPlayer.java:108)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.runAsSoldier(RobotPlayer.java:66)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.run(RobotPlayer.java:46)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+     [java] [A:SOLDIER#105@33] 	at java.lang.reflect.Method.invoke(Method.java:606)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.RobotRunnable.run(RobotRunnable.java:65)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.scheduler.ScheduledRunnable.run(ScheduledRunnable.java:37)
+     [java] [A:SOLDIER#105@33] 	at java.lang.Thread.run(Thread.java:724)
+     [java] [A:SOLDIER#105@33] java.lang.ArrayIndexOutOfBoundsException: 0
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getSoldiersWithinAttackRange(RobotPlayer.java:175)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getAttackingAlliedRobotInfos(RobotPlayer.java:152)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.micro(RobotPlayer.java:108)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.runAsSoldier(RobotPlayer.java:66)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.run(RobotPlayer.java:46)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+     [java] [A:SOLDIER#105@33] 	at java.lang.reflect.Method.invoke(Method.java:606)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.RobotRunnable.run(RobotRunnable.java:65)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.scheduler.ScheduledRunnable.run(ScheduledRunnable.java:37)
+     [java] [A:SOLDIER#105@33] 	at java.lang.Thread.run(Thread.java:724)
+     [java] [A:SOLDIER#105@33] java.lang.ArrayIndexOutOfBoundsException: 0
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getSoldiersWithinAttackRange(RobotPlayer.java:175)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getAttackingAlliedRobotInfos(RobotPlayer.java:152)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.micro(RobotPlayer.java:108)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.runAsSoldier(RobotPlayer.java:66)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.run(RobotPlayer.java:46)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+     [java] [A:SOLDIER#105@33] 	at java.lang.reflect.Method.invoke(Method.java:606)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.RobotRunnable.run(RobotRunnable.java:65)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.scheduler.ScheduledRunnable.run(ScheduledRunnable.java:37)
+     [java] [A:SOLDIER#105@33] 	at java.lang.Thread.run(Thread.java:724)
+     [java] [A:SOLDIER#105@33] java.lang.ArrayIndexOutOfBoundsException: 0
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getSoldiersWithinAttackRange(RobotPlayer.java:175)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getAttackingAlliedRobotInfos(RobotPlayer.java:152)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.micro(RobotPlayer.java:108)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.runAsSoldier(RobotPlayer.java:66)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.run(RobotPlayer.java:46)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+     [java] [A:SOLDIER#105@33] 	at java.lang.reflect.Method.invoke(Method.java:606)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.RobotRunnable.run(RobotRunnable.java:65)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.scheduler.ScheduledRunnable.run(ScheduledRunnable.java:37)
+     [java] [A:SOLDIER#105@33] 	at java.lang.Thread.run(Thread.java:724)
+     [java] [A:SOLDIER#105@33] java.lang.ArrayIndexOutOfBoundsException: 0
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getSoldiersWithinAttackRange(RobotPlayer.java:175)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getAttackingAlliedRobotInfos(RobotPlayer.java:152)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.micro(RobotPlayer.java:108)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.runAsSoldier(RobotPlayer.java:66)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.run(RobotPlayer.java:46)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+     [java] [A:SOLDIER#105@33] 	at java.lang.reflect.Method.invoke(Method.java:606)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.RobotRunnable.run(RobotRunnable.java:65)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.scheduler.ScheduledRunnable.run(ScheduledRunnable.java:37)
+     [java] [A:SOLDIER#105@33] 	at java.lang.Thread.run(Thread.java:724)
+     [java] [A:SOLDIER#105@33] java.lang.ArrayIndexOutOfBoundsException: 0
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getSoldiersWithinAttackRange(RobotPlayer.java:175)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getAttackingAlliedRobotInfos(RobotPlayer.java:152)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.micro(RobotPlayer.java:108)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.runAsSoldier(RobotPlayer.java:66)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.run(RobotPlayer.java:46)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+     [java] [A:SOLDIER#105@33] 	at java.lang.reflect.Method.invoke(Method.java:606)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.RobotRunnable.run(RobotRunnable.java:65)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.scheduler.ScheduledRunnable.run(ScheduledRunnable.java:37)
+     [java] [A:SOLDIER#105@33] 	at java.lang.Thread.run(Thread.java:724)
+     [java] [A:SOLDIER#105@33] java.lang.ArrayIndexOutOfBoundsException: 0
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getSoldiersWithinAttackRange(RobotPlayer.java:175)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.getAttackingAlliedRobotInfos(RobotPlayer.java:152)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.micro(RobotPlayer.java:108)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.runAsSoldier(RobotPlayer.java:66)
+     [java] [A:SOLDIER#105@33] 	at team000.RobotPlayer.run(RobotPlayer.java:46)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+     [java] [A:SOLDIER#105@33] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+     [java] [A:SOLDIER#105@33] 	at java.lang.reflect.Method.invoke(Method.java:606)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.RobotRunnable.run(RobotRunnable.java:65)
+     [java] [A:SOLDIER#105@33] 	at battlecode.engine.scheduler.ScheduledRunnable.run(ScheduledRunnable.java:37)
+     [java] [A:SOLDIER#105@33] 	at java.lang.Thread.run(Thread.java:724)
+     [java] metadata: team000 blindrush
+
+BUILD SUCCESSFUL
+Total time: 54 seconds

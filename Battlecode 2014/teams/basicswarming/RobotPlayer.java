@@ -1,4 +1,4 @@
-package team000;
+package basicswarming;
 
 import java.util.Random;
 
@@ -14,7 +14,7 @@ import battlecode.common.Team;
 
 public class RobotPlayer {
   
-  private static final int DEBUG_LEVEL = 10;
+  private static final int DEBUG_LEVEL = 0;
   private static Random RAND;
   private static MapLocation ENEMY_HQ_LOCATION;
   private static MapLocation HQ_LOCATION;
@@ -98,11 +98,11 @@ public class RobotPlayer {
     RobotInfo[] attackableNotSoldierInfos = attackableRobotInfos.getNearby(false);
     if (attackableSoldierInfos.length == 0) {
       if (attackableNotSoldierInfos.length > 0) {
-//        debug("No enemy soldiers within attacking range; attacking non-soldier.");
+        debug("No enemy soldiers within attacking range; attacking non-soldier.");
         attackWeakest(attackableNotSoldierInfos);
         return Direction.NONE;
       }
-//      debug("No enemy robots nearby; not attacking.");
+      debug("No enemy robots nearby; not attacking.");
       return Direction.NONE;
     }
     RobotInfo[] attackingAlliedRobotInfos = getAttackingAlliedRobotInfos().getNearby(true);
@@ -149,31 +149,25 @@ public class RobotPlayer {
   }
 
   private static NearbyRobots getAttackingAlliedRobotInfos() throws GameActionException {
-    return getSoldiersWithinAttackRange(MY_TEAM, true);
+    return getSoldiersWithinAttackRange(MY_TEAM);
   }
 
   private static NearbyRobots getAttackableRobotInfos() throws GameActionException {
-    return getSoldiersWithinAttackRange(ENEMY_TEAM, false);
+    return getSoldiersWithinAttackRange(ENEMY_TEAM);
   }
 
-  private static NearbyRobots getSoldiersWithinAttackRange(Team team, boolean includeSelf)
-      throws GameActionException {
+  private static NearbyRobots getSoldiersWithinAttackRange(Team team) throws GameActionException {
     Robot[] robots =
         RC.senseNearbyGameObjects(Robot.class, RC.getType().attackRadiusMaxSquared, team);
-    int length = includeSelf ? robots.length + 1 : robots.length;
-    RobotInfo[] robotInfos = new RobotInfo[length];
+    RobotInfo[] robotInfos = new RobotInfo[robots.length];
     int numberOfSoldiers = 0;
-    int[] soldierIndices = new int[length];
+    int[] soldierIndices = new int[robots.length];
     for (int i = 0; i < robots.length; i++) {
       RobotInfo robotInfo = RC.senseRobotInfo(robots[i]);
       robotInfos[i] = robotInfo;
       if (robotInfo.type == RobotType.SOLDIER) {
         soldierIndices[numberOfSoldiers++] = i;
       }
-    }
-    if (includeSelf) {
-      robotInfos[robots.length] = getMyRobotInfo();
-      soldierIndices[numberOfSoldiers++] = robots.length;
     }
     if (numberOfSoldiers == 0) {
       return new NearbyRobots(robotInfos, false);
@@ -185,17 +179,11 @@ public class RobotPlayer {
     return new NearbyRobots(soldierInfos, true);
   }
 
-  private static RobotInfo getMyRobotInfo() {
-    // TODO (jhoch): remove
-    return new RobotInfo(RC.getRobot(), RC.getLocation(), RC.getHealth(), Direction.NONE,
-        RobotType.SOLDIER, MY_TEAM, RC.getActionDelay(), false, RobotType.SOLDIER, 0);
-  }
-
   private static int simulateOutcome(RobotInfo[] attackableRobotInfos,
       RobotInfo[] attackingAlliedRobotInfos) {
     int[] enemyBuckets = bucketRobotsByHealth(attackableRobotInfos);
     int[] alliedBuckets = bucketRobotsByHealth(attackingAlliedRobotInfos);
-//    debug("alliedBuckets: " + printout(alliedBuckets) + "; enemyBuckets: " + printout(enemyBuckets));
+    debug("alliedBuckets: " + alliedBuckets + "; enemyBuckets: " + enemyBuckets);
     int totalEnemies = attackableRobotInfos.length;
     int totalAllies = attackingAlliedRobotInfos.length;
     int numberOfKilledAllies = 0;
@@ -203,10 +191,10 @@ public class RobotPlayer {
     numberOfKilledEnemies += simulateHits(1, enemyBuckets); // my initial hit
     while (totalEnemies > 0 && totalAllies > 0) {
       numberOfKilledAllies += simulateHits(totalEnemies, alliedBuckets);
-//      debug("numberOfKilledAllies: " + numberOfKilledAllies + "; alliedBuckets: " + printout(alliedBuckets));
+      debug("numberOfKilledAllies: " + numberOfKilledAllies + "; alliedBuckets: " + alliedBuckets);
       totalAllies -= numberOfKilledAllies;
       numberOfKilledEnemies += simulateHits(totalAllies, enemyBuckets);
-//      debug("numberOfKilledEnemies: " + numberOfKilledEnemies + "; enemyBuckets: " + printout(enemyBuckets));
+      debug("numberOfKilledEnemies: " + numberOfKilledEnemies + "; enemyBuckets: " + enemyBuckets);
       totalEnemies -= numberOfKilledEnemies;
       if (numberOfKilledEnemies - numberOfKilledAllies != 0) {
         return numberOfKilledEnemies - numberOfKilledAllies;
@@ -229,11 +217,11 @@ public class RobotPlayer {
     int bucketIndex = 0;
     int kills = 0;
     while (hitsTeamA > 0 && bucketIndex < bucketsTeamB.length) {
-//      debug("Checking bucket " + bucketIndex, 2);
+      debug("Checking bucket " + bucketIndex, 2);
       if (bucketsTeamB[bucketIndex] > 0) {
-//        debug("Hitting bucket " + bucketIndex + " with " + bucketsTeamB[bucketIndex] + " robots; have " + hitsTeamA + " hits left.", 1);
+        debug("Hitting bucket " + bucketIndex + " with " + bucketsTeamB[bucketIndex] + " robots; have " + hitsTeamA + " hits left.", 1);
         int bucketKills = Math.min(hitsTeamA / (bucketIndex + 1), bucketsTeamB[bucketIndex]);
-//        debug(bucketKills + " kills.", 1);
+        debug(bucketKills + " kills.", 1);
         bucketsTeamB[bucketIndex] -= bucketKills;
         kills += bucketKills;
         hitsTeamA -= bucketKills * (bucketIndex + 1);
@@ -373,20 +361,9 @@ public class RobotPlayer {
       return nearbyRobots;
     }
   }
-  
-  private static String printout(int[] ints) {
-    StringBuilder sb = new StringBuilder();
-    sb.append('[');
-    for (int i : ints) {
-      sb.append(i);
-      sb.append(' ');
-    }
-    sb.append(']');
-    return sb.toString();
-  }
 
   private static void debug(String string) {
-//    debug(string, 0);
+    debug(string, 0);
   }
   
   private static void debug(String string, int debugLevel) {
