@@ -2,6 +2,7 @@ package blindrush;
 
 import battlecode.common.Direction;
 import battlecode.common.GameActionException;
+import battlecode.common.GameConstants;
 import battlecode.common.MapLocation;
 import battlecode.common.Robot;
 import battlecode.common.RobotController;
@@ -97,7 +98,9 @@ public class RobotPlayer {
   private static void runAsHq() throws GameActionException {
     if (RC.isActive()) {
       if (!attemptAttack()) {
-        RC.spawn(RC.getLocation().directionTo(ENEMY_HQ_LOCATION));
+        if (RC.senseRobotCount() < GameConstants.MAX_ROBOTS) {
+          RC.spawn(RC.getLocation().directionTo(ENEMY_HQ_LOCATION));
+        }
       }
     }
   }

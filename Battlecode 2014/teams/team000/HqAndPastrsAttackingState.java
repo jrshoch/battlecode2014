@@ -1,4 +1,4 @@
-package basicswarming;
+package team000;
 
 import java.util.Random;
 
@@ -12,59 +12,26 @@ import battlecode.common.RobotInfo;
 import battlecode.common.RobotType;
 import battlecode.common.Team;
 
-public class RobotPlayer {
+public class HqAndPastrsAttackingState implements RobotState {
   
-  private static final int DEBUG_LEVEL = 10;
-  private static Random RAND;
-  private static MapLocation ENEMY_HQ_LOCATION;
-  private static MapLocation HQ_LOCATION;
-  private static RobotController RC;
-  private static Team MY_TEAM;
-  private static Team ENEMY_TEAM;
-
-  public static void run(RobotController rc) {
-    RAND = new Random();
-    RC = rc;
-    HQ_LOCATION = RC.senseHQLocation();
-    ENEMY_HQ_LOCATION = RC.senseEnemyHQLocation();
-    MY_TEAM = RC.getTeam();
-    ENEMY_TEAM = MY_TEAM.opponent();
-    switch (RC.getType()) {
-    case HQ:
-      while (true) {
-        try {
-          runAsHq();
-          RC.yield();
-        } catch (Exception e) {
-          rc.breakpoint();
-          e.printStackTrace();
-        }
-      }
-    case SOLDIER:
-      while (true) {
-        try {
-          runAsSoldier();
-          RC.yield();
-        } catch (Exception e) {
-          rc.breakpoint();
-          e.printStackTrace();
-        }
-      }
-    case PASTR:
-      while (true) {
-        
-      }
-    case NOISETOWER:
-      while (true) {
-        
-      }
-    }
+  private static final int DEBUG_LEVEL = 0;
+  private static final Random RAND = new Random();
+  private final RobotController rc;
+  private final Knowledge knowledge;
+  private final RobotState previousState;
+  
+  public HqAndPastrsAttackingState(RobotController rc) {
+    this.rc = rc;
+    this.knowledge = new Knowledge(rc);
+    this.previousState = null;
   }
 
-  private static void runAsSoldier() throws GameActionException {
-    if (RC.isActive()) {
+  @Override
+  public RobotState run() throws GameActionException {
+    knowledge.update();
+    if (rc.isActive()) {
       Direction retreatDirection = micro();
-      if (RC.isActive()) {
+      if (rc.isActive()) {
         if (retreatDirection == Direction.NONE) {
           MapLocation destination = determineSoldierDestination();
           attemptMoveTowards(destination);
@@ -73,17 +40,18 @@ public class RobotPlayer {
         }
       }
     }
+    return this;
   }
 
-  private static MapLocation determineSoldierDestination() {
-    MapLocation[] enemyPastrLocations = RC.sensePastrLocations(ENEMY_TEAM);
+  private MapLocation determineSoldierDestination() {
+    MapLocation[] enemyPastrLocations = rc.sensePastrLocations(knowledge.ENEMY_TEAM);
     if (enemyPastrLocations.length == 0) {
-      return ENEMY_HQ_LOCATION;
+      return knowledge.ENEMY_HQ_LOCATION;
     }
     MapLocation nearestEnemyPastr = null;
     int distanceToNearest = Integer.MAX_VALUE;
     for (MapLocation enemyPastrLocation : enemyPastrLocations) {
-      int distance = RC.getLocation().distanceSquaredTo(enemyPastrLocation);
+      int distance = knowledge.myLocation.distanceSquaredTo(enemyPastrLocation);
       if (distance < distanceToNearest) {
         distanceToNearest = distance;
         nearestEnemyPastr = enemyPastrLocation;
@@ -92,7 +60,7 @@ public class RobotPlayer {
     return nearestEnemyPastr;
   }
   
-  private static Direction micro() throws GameActionException {
+  private Direction micro() throws GameActionException {
     NearbyRobots attackableRobotInfos = getAttackableRobotInfos();
     RobotInfo[] attackableSoldierInfos = attackableRobotInfos.getNearby(true);
     RobotInfo[] attackableNotSoldierInfos = attackableRobotInfos.getNearby(false);
@@ -110,7 +78,7 @@ public class RobotPlayer {
     int selfDestructOutcome =
         simulateSelfDestruct(attackableSoldierInfos, attackingAlliedRobotInfos);
     if (selfDestructOutcome > outcome && selfDestructOutcome > 0) {
-      RC.selfDestruct();
+      rc.selfDestruct();
       return Direction.NONE;
     }
     if (outcome > 0) {
@@ -118,25 +86,24 @@ public class RobotPlayer {
       return Direction.NONE;
     }
     MapLocation averageAttackableRobotLocation = getAverageLocation(attackableSoldierInfos);
-    if (averageAttackableRobotLocation == RC.getLocation()) {
+    if (averageAttackableRobotLocation == knowledge.myLocation) {
       attackWeakest(attackableSoldierInfos);
       return Direction.NONE;
     }
-    return RC.getLocation().directionTo(averageAttackableRobotLocation).opposite();
+    return knowledge.myLocation.directionTo(averageAttackableRobotLocation).opposite();
   }
 
-  private static int simulateSelfDestruct(RobotInfo[] attackableRobotInfos,
+  private int simulateSelfDestruct(RobotInfo[] attackableRobotInfos,
       RobotInfo[] attackingAlliedRobotInfos) {
-    MapLocation myLocation = RC.getLocation();
-    double destructDamage = RC.getHealth() * GameConstants.SELF_DESTRUCT_DAMAGE_FACTOR
+    double destructDamage = knowledge.health * GameConstants.SELF_DESTRUCT_DAMAGE_FACTOR
             + GameConstants.SELF_DESTRUCT_BASE_DAMAGE;
     int outcome = -1;
-    outcome += countDestructDeaths(attackableRobotInfos, myLocation, destructDamage);
-    outcome -= countDestructDeaths(attackingAlliedRobotInfos, myLocation, destructDamage);
+    outcome += countDestructDeaths(attackableRobotInfos, knowledge.myLocation, destructDamage);
+    outcome -= countDestructDeaths(attackingAlliedRobotInfos, knowledge.myLocation, destructDamage);
     return outcome;
   }
 
-  private static int countDestructDeaths(RobotInfo[] robotInfos, MapLocation destructLocation,
+  private int countDestructDeaths(RobotInfo[] robotInfos, MapLocation destructLocation,
       double destructDamage) {
     int deaths = 0;
     for (RobotInfo attackableRobotInfo : robotInfos) {
@@ -148,24 +115,24 @@ public class RobotPlayer {
     return deaths;
   }
 
-  private static NearbyRobots getAttackingAlliedRobotInfos() throws GameActionException {
-    return getSoldiersWithinAttackRange(MY_TEAM, true);
+  private NearbyRobots getAttackingAlliedRobotInfos() throws GameActionException {
+    return getSoldiersWithinAttackRange(knowledge.MY_TEAM, true);
   }
 
-  private static NearbyRobots getAttackableRobotInfos() throws GameActionException {
-    return getSoldiersWithinAttackRange(ENEMY_TEAM, false);
+  private NearbyRobots getAttackableRobotInfos() throws GameActionException {
+    return getSoldiersWithinAttackRange(knowledge.ENEMY_TEAM, false);
   }
 
-  private static NearbyRobots getSoldiersWithinAttackRange(Team team, boolean includeSelf)
+  private NearbyRobots getSoldiersWithinAttackRange(Team team, boolean includeSelf)
       throws GameActionException {
     Robot[] robots =
-        RC.senseNearbyGameObjects(Robot.class, RC.getType().attackRadiusMaxSquared, team);
+        rc.senseNearbyGameObjects(Robot.class, knowledge.type.attackRadiusMaxSquared, team);
     int length = includeSelf ? robots.length + 1 : robots.length;
     RobotInfo[] robotInfos = new RobotInfo[length];
     int numberOfSoldiers = 0;
     int[] soldierIndices = new int[length];
     for (int i = 0; i < robots.length; i++) {
-      RobotInfo robotInfo = RC.senseRobotInfo(robots[i]);
+      RobotInfo robotInfo = rc.senseRobotInfo(robots[i]);
       robotInfos[i] = robotInfo;
       if (robotInfo.type == RobotType.SOLDIER) {
         soldierIndices[numberOfSoldiers++] = i;
@@ -185,13 +152,13 @@ public class RobotPlayer {
     return new NearbyRobots(soldierInfos, true);
   }
 
-  private static RobotInfo getMyRobotInfo() {
+  private RobotInfo getMyRobotInfo() {
     // TODO (jhoch): remove
-    return new RobotInfo(RC.getRobot(), RC.getLocation(), RC.getHealth(), Direction.NONE,
-        RobotType.SOLDIER, MY_TEAM, RC.getActionDelay(), false, RobotType.SOLDIER, 0);
+    return new RobotInfo(rc.getRobot(), rc.getLocation(), rc.getHealth(), Direction.NONE,
+        RobotType.SOLDIER, knowledge.MY_TEAM, rc.getActionDelay(), false, RobotType.SOLDIER, 0);
   }
 
-  private static int simulateOutcome(RobotInfo[] attackableRobotInfos,
+  private int simulateOutcome(RobotInfo[] attackableRobotInfos,
       RobotInfo[] attackingAlliedRobotInfos) {
     int[] enemyBuckets = bucketRobotsByHealth(attackableRobotInfos);
     int[] alliedBuckets = bucketRobotsByHealth(attackingAlliedRobotInfos);
@@ -215,7 +182,7 @@ public class RobotPlayer {
     return totalAllies - totalEnemies;
   }
 
-  private static int[] bucketRobotsByHealth(RobotInfo[] robotInfos) {
+  private int[] bucketRobotsByHealth(RobotInfo[] robotInfos) {
     int numBuckets = (int) (RobotType.SOLDIER.maxHealth / RobotType.SOLDIER.attackPower);
     int[] buckets = new int[numBuckets];
     for (RobotInfo robotInfo : robotInfos) {
@@ -224,7 +191,7 @@ public class RobotPlayer {
     return buckets;
   }
 
-  private static int simulateHits(int totalTeamA, int[] bucketsTeamB) {
+  private int simulateHits(int totalTeamA, int[] bucketsTeamB) {
     int hitsTeamA = totalTeamA;
     int bucketIndex = 0;
     int kills = 0;
@@ -248,7 +215,7 @@ public class RobotPlayer {
     return kills;
   }
 
-  private static void attackWeakest(RobotInfo[] attackableRobotInfos) throws GameActionException {
+  private void attackWeakest(RobotInfo[] attackableRobotInfos) throws GameActionException {
     double minHealth = Integer.MAX_VALUE;
     MapLocation weakestLocation = null;
     for (RobotInfo attackableRobotInfo : attackableRobotInfos) {
@@ -258,11 +225,11 @@ public class RobotPlayer {
       }
     }
     if (weakestLocation != null) {
-      RC.attackSquare(weakestLocation);
+      rc.attackSquare(weakestLocation);
     }
   }
 
-  private static MapLocation getAverageLocation(RobotInfo[] robotInfos) {
+  private MapLocation getAverageLocation(RobotInfo[] robotInfos) {
     int totalX = 0;
     int totalY = 0;
     for (RobotInfo robotInfo : robotInfos) {
@@ -273,81 +240,43 @@ public class RobotPlayer {
     return new MapLocation(Math.round(totalX), Math.round(totalY));
   }
 
-  private static boolean attemptAttack() throws GameActionException {
-    RobotInfo[] attackableRobotInfos = getAttackableRobotInfos().getNearbyRobots();
-    if (attackableRobotInfos.length <= 0) {
-      return false;
-    }
-    double minimumHealth = Integer.MAX_VALUE;
-    MapLocation minimumHealthLocation = null;
-    for (RobotInfo attackableRobotInfo : attackableRobotInfos) {
-      double enemyRobotHealth = attackableRobotInfo.health;
-      if (enemyRobotHealth < minimumHealth) {
-        minimumHealth = enemyRobotHealth;
-        minimumHealthLocation = attackableRobotInfo.location;
-      }
-    }
-    if (minimumHealthLocation == null) {
-      // Enemy HQ in attack radius?
-      return false;
-    }
-    RC.attackSquare(minimumHealthLocation);
-    return true;
-  }
-  
-  private static void attemptMoveTowards(MapLocation destination) throws GameActionException {
-    Direction desiredDirection = RC.getLocation().directionTo(destination);
+  private void attemptMoveTowards(MapLocation destination) throws GameActionException {
+    Direction desiredDirection = knowledge.myLocation.directionTo(destination);
     attemptMove(desiredDirection);
   }
     
-  private static void attemptMove(Direction desiredDirection) throws GameActionException {
+  private void attemptMove(Direction desiredDirection) throws GameActionException {
+    Direction attemptDirection = desiredDirection;
     if (RAND.nextBoolean()) {
       for (int i = 0; i < 8; i++) {
-        if (RC.canMove(desiredDirection)) {
-          if (directionPutsMeInRangeOfEnemyHq(desiredDirection)) {
+        if (rc.canMove(attemptDirection)) {
+          if (directionPutsMeInRangeOfEnemyHq(attemptDirection)) {
             return;
           }
-          RC.move(desiredDirection);
+          rc.move(attemptDirection);
           break;
         } 
-        desiredDirection = desiredDirection.rotateLeft();
+        attemptDirection = attemptDirection.rotateLeft();
       }
     } else {
       for (int i = 0; i < 8; i++) {
-        if (RC.canMove(desiredDirection)) {
-          if (directionPutsMeInRangeOfEnemyHq(desiredDirection)) {
+        if (rc.canMove(attemptDirection)) {
+          if (directionPutsMeInRangeOfEnemyHq(attemptDirection)) {
             return;
           }
-          RC.move(desiredDirection);
+          rc.move(attemptDirection);
           break;
         } 
-        desiredDirection = desiredDirection.rotateRight();
+        attemptDirection = attemptDirection.rotateRight();
       }
     }
   }
 
-  private static boolean directionPutsMeInRangeOfEnemyHq(Direction desiredDirection) {
-    int distance = RC.getLocation().add(desiredDirection).distanceSquaredTo(ENEMY_HQ_LOCATION);
+  private boolean directionPutsMeInRangeOfEnemyHq(Direction desiredDirection) {
+    int distance = knowledge.myLocation.add(desiredDirection).distanceSquaredTo(knowledge.ENEMY_HQ_LOCATION);
     return distance <= RobotType.HQ.attackRadiusMaxSquared;
   }
 
-  private static void runAsHq() throws GameActionException {
-    if (RC.isActive()) {
-      if (!attemptAttack()) {
-        if (RC.senseRobotCount() < GameConstants.MAX_ROBOTS) {
-          MapLocation myLocation = RC.getLocation();
-          Direction desiredDirection = myLocation.directionTo(ENEMY_HQ_LOCATION);
-          for (int i = 0; i < 8; i++, desiredDirection = desiredDirection.rotateLeft()) {
-            if (RC.senseObjectAtLocation(myLocation.add(desiredDirection)) == null) {
-              RC.spawn(desiredDirection);
-              break;
-            }
-          }
-        }
-      }
-    }
-  }
-  
   private static class NearbyRobots {
     
     private final RobotInfo[] nearbyRobots;
@@ -368,13 +297,9 @@ public class RobotPlayer {
       }
       return nearbyRobots;
     }
-    
-    public RobotInfo[] getNearbyRobots() {
-      return nearbyRobots;
-    }
   }
   
-  private static String printout(int[] ints) {
+  private String printout(int[] ints) {
     StringBuilder sb = new StringBuilder();
     sb.append('[');
     for (int i : ints) {
@@ -385,11 +310,11 @@ public class RobotPlayer {
     return sb.toString();
   }
 
-  private static void debug(String string) {
+  private void debug(String string) {
 //    debug(string, 0);
   }
   
-  private static void debug(String string, int debugLevel) {
+  private void debug(String string, int debugLevel) {
     if (debugLevel < DEBUG_LEVEL) {
       System.out.println(string);
     }
